@@ -19,6 +19,23 @@ UserSchema.methods.generateJwtToken = function () {
   return jwt.sign({ user: this._id.toString() }, "ZomatoAPP");
 };
 
+
+UserSchema.statics.findByEmailAndPhone = async ({ email, phoneNumber }) => {
+  // check whether email exist
+  const checkUserByEmail = await UserModel.findOne({ email });
+  const checkUserByPhone = await UserModel.findOne({ phoneNumber });
+
+  if (checkUserByEmail || checkUserByPhone) {
+    throw new Error("User Already Exist...!");
+  }
+
+  return false;
+};
+
+UserSchema.methods.generateJwtToken = function () {
+  return jwt.sign({ user: this._id.toString() }, "ZomatoAPP");
+};
+
 UserSchema.statics.findByEmailAndPhone = async ({ email, phoneNumber }) => {
   // check whether email exist
   const checkUserByEmail = await UserModel.findOne({ email });
